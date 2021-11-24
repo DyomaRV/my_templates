@@ -1,8 +1,11 @@
+import functools
 from typing import Callable, Any
+
 
 
 def do_twice(func: Callable) -> Callable:
     """Декоратор, исполняет декорируемую функцию дважды"""
+    @functools.wraps(func)                                             # присваеваем обертке методы обертываемой функции
     def wrapped_func(*args, **kwargs) -> Any:
         func(*args, **kwargs)
         func(*args, **kwargs)
@@ -12,7 +15,11 @@ def do_twice(func: Callable) -> Callable:
 
 @do_twice                                                               # Декорирование функции в следующей строке
 def greeting(name):
+    '''функция выводящяя 'Привет' '''
     print('Привет, {name}!'.format(name=name))
+
+print(greeting.__name__)                                                # без @functools.wraps(func) в декораторе не
+print(greeting.__doc__)                                                 #  работает выведет значения для def wrapped_func
 ######################################################################################################################
 
 
